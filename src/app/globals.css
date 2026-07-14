@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 
 :root {
@@ -9,10 +11,22 @@
   --border: #e4e4e7;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
+  --accent-foreground: #ffffff;
+}
+
+[data-theme="dark"] {
+  --surface: #09090b;
+  --surface-subtle: #18181b;
+  --foreground: #fafafa;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --accent: #60a5fa;
+  --accent-hover: #93c5fd;
+  --accent-foreground: #09090b;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --surface: #09090b;
     --surface-subtle: #18181b;
     --foreground: #fafafa;
@@ -20,6 +34,7 @@
     --border: #27272a;
     --accent: #60a5fa;
     --accent-hover: #93c5fd;
+    --accent-foreground: #09090b;
   }
 }
 
@@ -31,8 +46,21 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
   --radius-subtle: 0.375rem;
   --radius-round: 9999px;
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* shadcn/Radix components (Button, DropdownMenu, ...) consume these
+     names; they're mapped onto our existing semantic tokens rather than
+     shadcn's own default palette, so there is one token system, not two. */
+  --color-background: var(--surface);
+  --color-muted: var(--surface-subtle);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--foreground);
 }
 
 body {
@@ -74,12 +102,20 @@ body {
   color: var(--shiki-light);
 }
 
+[data-theme="dark"] .prose pre {
+  background-color: var(--shiki-dark-bg);
+}
+
+[data-theme="dark"] .prose code span {
+  color: var(--shiki-dark);
+}
+
 @media (prefers-color-scheme: dark) {
-  .prose pre {
+  :root:not([data-theme="light"]) .prose pre {
     background-color: var(--shiki-dark-bg);
   }
 
-  .prose code span {
+  :root:not([data-theme="light"]) .prose code span {
     color: var(--shiki-dark);
   }
 }

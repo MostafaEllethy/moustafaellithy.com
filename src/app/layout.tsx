@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Header } from "@/components/Header";
+import { PageContainer } from "@/components/PageContainer";
+import { fontMono, fontSans } from "@/lib/fonts";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+
+const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,9 +22,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-surface text-foreground antialiased">
-        <div className="mx-auto max-w-[65ch] px-4 py-12">{children}</div>
+    <html
+      lang="en"
+      className={`${fontSans.variable} ${fontMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-surface font-sans text-foreground antialiased">
+        <Header />
+        <main id="main" className="flex-1">
+          <PageContainer>{children}</PageContainer>
+        </main>
       </body>
     </html>
   );

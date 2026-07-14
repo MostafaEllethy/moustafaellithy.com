@@ -29,14 +29,12 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 - Clean lint/format setup (ESLint 9 flat config + Prettier), no lint-disable comments anywhere.
 - CI pipeline (`.github/workflows/ci.yml`) gating install → lint → format check → type-check → build → tests; a Vitest unit suite (`src/lib/posts.test.ts`, `src/app/rss.xml/route.test.ts`) and a Playwright + `@axe-core/playwright` e2e/a11y suite (`e2e/`).
 - A semantic design-token set (`surface`, `foreground`, `muted-foreground`, `border`, `accent`) implemented for both light and dark via Tailwind v4's `@theme inline`, with dark mode driven by `prefers-color-scheme` and dual-theme (light/dark) Shiki syntax highlighting.
+- Self-hosted Geist/Geist Mono fonts (`src/lib/fonts.ts`) via `next/font/google`; shared chrome (`src/components/Header.tsx`, `Sidebar.tsx`, `Footer.tsx`, `PageContainer.tsx`); a mobile-and-desktop nav drawer (`src/components/Sidebar.tsx`, Radix `Dialog`) linking Home and Writing; a user-controlled `data-theme` override (Light/Dark/System, `src/components/ThemeToggle.tsx`) layered over `prefers-color-scheme`, set pre-hydration by an inline script in `src/app/layout.tsx` with no flash of the wrong theme.
 
 **Missing or placeholder:**
 
 - Homepage bio (`src/app/page.tsx`) is literal Lorem ipsum; both existing posts (`hello-world.mdx`, `notes-on-drafts.mdx`) are explicit dummy/test content.
-- **No theme toggle yet.** Dark mode currently follows system preference only (`prefers-color-scheme`); a user-controlled override with `data-theme` and no flash-of-wrong-theme is Phase 2.
-- **No shared chrome.** No header, nav, or footer — navigation is only inline `<Link>`s. No `src/components/` directory exists yet.
 - **Only two routes exist:** Home and Writing (index + `[slug]`). About, Experience, Projects, Resume, Contact, and Notes are all documented in `content-strategy.md` but not built.
-- No fonts loaded (`next/font` unused); `public/` is empty aside from the default favicon.
 - SEO gaps: no `robots.ts`, no Open Graph/Twitter metadata, no OG preview images, no structured data (JSON-LD).
 - `next.config.ts` is an empty scaffold.
 
@@ -88,12 +86,14 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 
 ## Phase 2: Layout Foundation & Theming
 
+**Status:** ✅ Complete
+
 **Goal:** Build the structural shell every page will share, on top of the tokens from Phase 1.
 
 **Deliverables:**
 
 - Self-hosted fonts with zero layout shift and no render-blocking.
-- Shared chrome: header/nav, footer, page container, and a skip-link — the first components to justify introducing `src/components/`.
+- Shared chrome: header/nav (including a nav drawer for mobile and desktop), footer, page container, and a skip-link — the first components to justify introducing `src/components/`.
 - A dark/light theme-switching mechanism with no flash of incorrect theme on load, defaulting to system preference and persisting a user override.
 
 **Concrete choices:**
@@ -102,7 +102,7 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 - **Theming mechanism:** a `data-theme` attribute on `<html>`, set by a tiny inline script (runs before hydration to avoid flash-of-wrong-theme) that reads `localStorage`, falling back to `prefers-color-scheme`.
 - Introduce `src/components/` now, per `architecture.md`'s rule that shared components appear only once reuse justifies them — header/footer/container are the first genuine multi-route consumers.
 
-**Key files:** `src/app/layout.tsx`, new `src/components/` (Header, Footer, PageContainer, ThemeToggle).
+**Key files:** `src/app/layout.tsx`, new `src/components/` (Header, Sidebar, Footer, PageContainer, ThemeToggle).
 
 **Exit criteria:** A blank page rendered through the shared layout reflects the design system correctly in both themes, on mobile and desktop viewports, with no visible flash of the wrong theme.
 
