@@ -27,19 +27,22 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 - End-to-end MDX writing pipeline: `content/writing/*.mdx` → `src/lib/posts.ts` (eager frontmatter validation, reading time, draft visibility) → static article pages (`src/app/writing/[slug]/page.tsx`) with server-side Shiki highlighting → `sitemap.ts` and `rss.xml/route.ts`, both driven by the same loader so they can't drift.
 - Centralized site constants (`src/lib/site.ts`), strict TypeScript throughout, Next.js 16 conventions used correctly (async `params`, flat ESLint config, Turbopack-default scripts).
 - Clean lint/format setup (ESLint 9 flat config + Prettier), no lint-disable comments anywhere.
+- CI pipeline (`.github/workflows/ci.yml`) gating install → lint → format check → type-check → build → tests; a Vitest unit suite (`src/lib/posts.test.ts`, `src/app/rss.xml/route.test.ts`) and a Playwright + `@axe-core/playwright` e2e/a11y suite (`e2e/`).
+- A semantic design-token set (`surface`, `foreground`, `muted-foreground`, `border`, `accent`) implemented for both light and dark via Tailwind v4's `@theme inline`, with dark mode driven by `prefers-color-scheme` and dual-theme (light/dark) Shiki syntax highlighting.
 
 **Missing or placeholder:**
 
 - Homepage bio (`src/app/page.tsx`) is literal Lorem ipsum; both existing posts (`hello-world.mdx`, `notes-on-drafts.mdx`) are explicit dummy/test content.
-- **No dark mode.** `globals.css` defines `--background`/`--foreground` CSS variables but the actual markup bypasses them with hardcoded `bg-white`, `text-neutral-900`, etc. Shiki highlighting is hardcoded to `github-light` only.
+- **No theme toggle yet.** Dark mode currently follows system preference only (`prefers-color-scheme`); a user-controlled override with `data-theme` and no flash-of-wrong-theme is Phase 2.
 - **No shared chrome.** No header, nav, or footer — navigation is only inline `<Link>`s. No `src/components/` directory exists yet.
 - **Only two routes exist:** Home and Writing (index + `[slug]`). About, Experience, Projects, Resume, Contact, and Notes are all documented in `content-strategy.md` but not built.
 - No fonts loaded (`next/font` unused); `public/` is empty aside from the default favicon.
 - SEO gaps: no `robots.ts`, no Open Graph/Twitter metadata, no OG preview images, no structured data (JSON-LD).
-- No tests of any kind, and no CI — linting/formatting/type-checking/building are all manual scripts today.
 - `next.config.ts` is an empty scaffold.
 
 ## Phase 0: Delivery Foundation
+
+**Status:** ✅ Complete
 
 **Goal:** Put a safety net under every phase that follows, before adding more surface area to the site.
 
@@ -61,6 +64,8 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 
 ## Phase 1: Design Tokens
 
+**Status:** ✅ Complete
+
 **Goal:** Define the visual and interaction language as concrete, implemented tokens — the values `design-system.md`'s principles require but doesn't specify.
 
 **Deliverables:**
@@ -74,8 +79,10 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 
 - Implement via Tailwind v4's CSS-first `@theme` block in `globals.css` (no separate JS config file, consistent with the current setup) — semantic custom properties mapped into Tailwind's theme, not raw Tailwind palette classes.
 - Replace every hardcoded `neutral-*`/`white` utility in `layout.tsx`, `page.tsx`, and the writing pages with token-driven classes.
+- Dark mode ships now via `prefers-color-scheme`, ahead of the explicit theme-toggle mechanism (Phase 2); the token structure is written so Phase 2's `data-theme` override layers on without rework.
+- Shiki dual-theme (light/dark) syntax highlighting was pulled forward from Phase 3 into this phase, so code blocks never ship in a light-only state once dark mode exists.
 
-**Key files:** `src/app/globals.css`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/writing/**`.
+**Key files:** `src/app/globals.css`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/writing/**`, `src/lib/highlighter.ts`.
 
 **Exit criteria:** A token set exists that satisfies every principle in `design-system.md`, including verified AA contrast in both themes, and no component references a raw color value.
 
@@ -112,7 +119,7 @@ A short, honest snapshot, so this roadmap starts from reality rather than a blan
 
 **Concrete choices:**
 
-- Make Shiki dual-theme: render highlighted code with CSS-variable-driven theme tokens (Shiki supports dual/multi-theme output) instead of the current hardcoded `github-light`, so code blocks adapt with the rest of the site.
+- Shiki dual-theme highlighting shipped early, in Phase 1 — nothing left to do here on that front.
 - Generalize the loader to accept a content directory + schema per section (`content/writing`, later `content/notes`, `content/projects`), rather than duplicating `posts.ts` per section.
 
 **Key files:** `src/lib/posts.ts` → generalized loader, `src/lib/highlighter.ts`, `src/app/writing/**`, `content/writing/*.mdx`.

@@ -43,7 +43,7 @@ export default async function PostPage({
   return (
     <article className="prose">
       <h1>{post.title}</h1>
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-muted-foreground">
         {new Date(post.date).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
@@ -60,7 +60,13 @@ export default async function PostPage({
               [
                 rehypeShikiFromHighlighter,
                 highlighter,
-                { theme: "github-light" },
+                {
+                  themes: {
+                    light: "github-light-high-contrast",
+                    dark: "github-dark-high-contrast",
+                  },
+                  defaultColor: false,
+                },
               ],
             ],
           },

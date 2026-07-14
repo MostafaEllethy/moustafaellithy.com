@@ -18,11 +18,11 @@ export default function WritingIndexPage() {
           <li key={post.slug}>
             <Link
               href={`/writing/${post.slug}`}
-              className="text-lg font-medium underline"
+              className="text-lg font-medium text-accent underline hover:text-accent-hover"
             >
               {post.title}
             </Link>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               {new Date(post.date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
@@ -32,7 +32,7 @@ export default function WritingIndexPage() {
               {post.readingMinutes} min read
               {post.draft ? " · draft" : ""}
             </p>
-            <p className="text-neutral-700">{post.description}</p>
+            <p className="text-muted-foreground">{post.description}</p>
           </li>
         ))}
       </ul>

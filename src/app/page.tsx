@@ -8,7 +8,7 @@ export default function HomePage() {
     <div>
       <section>
         <h1 className="text-2xl font-semibold">Moustafa Ellithy</h1>
-        <p className="mt-4 text-neutral-700">
+        <p className="mt-4 text-muted-foreground">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -23,11 +23,11 @@ export default function HomePage() {
             <li key={post.slug}>
               <Link
                 href={`/writing/${post.slug}`}
-                className="font-medium underline"
+                className="font-medium text-accent underline hover:text-accent-hover"
               >
                 {post.title}
               </Link>
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-muted-foreground">
                 {new Date(post.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
@@ -37,7 +37,10 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-        <Link href="/writing" className="mt-4 inline-block text-sm underline">
+        <Link
+          href="/writing"
+          className="mt-4 inline-block text-sm text-accent underline hover:text-accent-hover"
+        >
           All posts →
         </Link>
       </section>

@@ -6,7 +6,10 @@ let highlighterPromise: Promise<HighlighterCore> | null = null;
 export function getHighlighter(): Promise<HighlighterCore> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighterCore({
-      themes: [import("shiki/themes/github-light.mjs")],
+      themes: [
+        import("shiki/themes/github-light-high-contrast.mjs"),
+        import("shiki/themes/github-dark-high-contrast.mjs"),
+      ],
       langs: [
         import("shiki/langs/typescript.mjs"),
         import("shiki/langs/tsx.mjs"),
