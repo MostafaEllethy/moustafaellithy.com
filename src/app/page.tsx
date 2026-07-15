@@ -1,12 +1,10 @@
-import Link from "next/link";
 import { Download, Mail } from "lucide-react";
-import { getAllPosts } from "@/lib/posts";
 import { Button } from "@/components/ui/button";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { CONTACT_EMAIL, RESUME_FILE, SOCIAL_LINKS } from "@/lib/site";
 
 export default function HomePage() {
-  const recentPosts = getAllPosts().slice(0, 3);
+  // const recentPosts = getAllPosts().slice(0, 3);
 
   return (
     <div>
@@ -74,7 +72,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-12">
+      {/* <section className="mt-12">
         <h2 className="text-lg font-semibold">Recent writing</h2>
         <ul className="mt-4 space-y-4">
           {recentPosts.map((post) => (
@@ -101,7 +99,7 @@ export default function HomePage() {
         >
           All posts →
         </Link>
-      </section>
+      </section> */}
     </div>
   );
 }
