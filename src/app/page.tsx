@@ -1,5 +1,9 @@
 import Link from "next/link";
+import { Download, Mail } from "lucide-react";
 import { getAllPosts } from "@/lib/posts";
+import { Button } from "@/components/ui/button";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { CONTACT_EMAIL, RESUME_FILE, SOCIAL_LINKS } from "@/lib/site";
 
 export default function HomePage() {
   const recentPosts = getAllPosts().slice(0, 3);
@@ -14,6 +18,57 @@ export default function HomePage() {
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat.
         </p>
+
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <Button
+            asChild
+            size="sm"
+            className="bg-accent text-accent-foreground hover:bg-accent-hover"
+          >
+            <a href={RESUME_FILE} download>
+              <Download className="h-4 w-4" />
+              Download Resume
+            </a>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            aria-label="Email Moustafa Ellithy"
+          >
+            <a href={`mailto:${CONTACT_EMAIL}`}>
+              <Mail className="h-4 w-4" />
+            </a>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            aria-label="GitHub profile"
+          >
+            <a
+              href={SOCIAL_LINKS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon className="h-4 w-4" />
+            </a>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            aria-label="LinkedIn profile"
+          >
+            <a
+              href={SOCIAL_LINKS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LinkedinIcon className="h-4 w-4" />
+            </a>
+          </Button>
+        </div>
       </section>
 
       <section className="mt-12">
