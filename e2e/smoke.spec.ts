@@ -13,7 +13,8 @@ test("shared chrome renders on every page", async ({ page }) => {
   await expect(page.locator("main#main")).toBeVisible();
 });
 
-test("sidebar nav links to every section", async ({ page }) => {
+// Sidebar is temporarily disabled (see Header.tsx); re-enable this test when nav returns.
+test.skip("sidebar nav links to every section", async ({ page }) => {
   await page.goto("/writing/hello-world");
   await page.getByRole("button", { name: /open menu/i }).click();
 
