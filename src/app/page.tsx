@@ -13,10 +13,13 @@ export default function HomePage() {
       <section>
         <h1 className="text-2xl font-semibold">Moustafa Ellithy</h1>
         <p className="mt-4 text-muted-foreground">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          I&apos;m a Senior Frontend Engineer based in Cairo, Egypt, passionate
+          about turning ideas into interfaces people genuinely enjoy using. I
+          care deeply about the details—from pixel-perfect layouts and
+          thoughtful interactions to accessibility and performance. Behind every
+          polished experience, I strive to write clean, maintainable code
+          that&apos;s built to last. Outside of work, I&apos;m a husband and a
+          proud father.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-2">
